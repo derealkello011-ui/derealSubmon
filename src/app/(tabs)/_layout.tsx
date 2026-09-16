@@ -6,7 +6,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const tabBar = components.tabBar;
 
-// Custom wrapper to render the circular active background
 const TabIcon = ({
   name,
   focused,
@@ -43,6 +42,7 @@ const TabsLayout = () => {
           bottom: Math.max(insets.bottom, tabBar.horizontalInset),
           height: tabBar.height,
           marginHorizontal: tabBar.horizontalInset,
+          paddingHorizontal: 28, // Squeezes icons toward the center
           borderRadius: tabBar.radius,
           backgroundColor: colors.foreground,
           borderTopWidth: 0,
