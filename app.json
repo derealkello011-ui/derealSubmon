@@ -8,7 +8,7 @@
     "scheme": "derealsubmon",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/image/subman.png"
     },
     "android": {
       "adaptiveIcon": {
@@ -21,7 +21,8 @@
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/image/subman.png",
+      "bundler": "metro"
     },
     "plugins": [
       "expo-router",
