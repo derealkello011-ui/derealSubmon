@@ -51,7 +51,7 @@ export default function App() {
               />
               </View>
 
-              <ListHeading title="All SUbscriptions" />
+              <ListHeading title="All Subscriptions" />
             </>
           )}
           keyExtractor={(item) => item.id}
@@ -68,7 +68,7 @@ export default function App() {
           ItemSeparatorComponent={() => <View className='h-4' />}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={<Text className='home-empty-state'>No Subscriptions yet.</Text>}
-          contentContainerClassName='pb-30'
+          contentContainerClassName='pb-30 '
         />
 
     </SafeAreaView>

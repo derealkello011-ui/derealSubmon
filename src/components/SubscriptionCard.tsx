@@ -2,7 +2,8 @@ import { clsx } from 'clsx';
 import { Image, Pressable, Text, View } from 'react-native';
 import { formatCurrency, formatStatusLabel, formatSubscriptionDateTime } from '../../lib/utils';
 
-const SubscriptionCard = ({name, price, currency, icon, billing, color, category, plan, renewalDate, expanded, status, onPress, paymentMethod, startDate}: SubscriptionCardProps) => {
+const SubscriptionCard = ( { name, price, currency, icon, billing, color, category, plan, renewalDate, expanded, status, onPress, paymentMethod, startDate }: SubscriptionCardProps ) => {
+    const fallBack = "Not Provided";
     return (
       <Pressable onPress={onPress} className={clsx('sub-card', expanded ? 'sub-card-expanded': 'bg-card')} style={!expanded && color ? {backgroundColor: color}: undefined}>
             <View className='sub-head'>
@@ -27,21 +28,21 @@ const SubscriptionCard = ({name, price, currency, icon, billing, color, category
                             <View className='sub-row-copy'>
                                 <Text className='sub-label'>Payment: </Text>
                                 <Text className='sub-value' numberOfLines={1} 
-                                    ellipsizeMode='tail'> { paymentMethod?.trim()}</Text>
+                                    ellipsizeMode='tail'> { paymentMethod?.trim() ?? fallBack}</Text>
                             </View>
                         </View>
                         <View className='sub-row'>
                             <View className='sub-row-copy'>
                                 <Text className='sub-label'>Category: </Text>
                                 <Text className='sub-value' numberOfLines={1} 
-                                    ellipsizeMode='tail'> { category?.trim() || plan?.trim()}</Text>
+                                    ellipsizeMode='tail'> { (category?.trim() || plan?.trim()) ?? fallBack}</Text>
                             </View>
                         </View>
                         <View className='sub-row'>
                             <View className='sub-row-copy'>
                                 <Text className='sub-label'>Started: </Text>
                                 <Text className='sub-value' numberOfLines={1} 
-                                    ellipsizeMode='tail'> { startDate ? formatSubscriptionDateTime(startDate): ''}</Text>
+                                    ellipsizeMode='tail'> { startDate ? formatSubscriptionDateTime(startDate): fallBack}</Text>
                             </View>
                         </View>
                         <View className='sub-row'>
