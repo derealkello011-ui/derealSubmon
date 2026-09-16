@@ -1,63 +1,104 @@
-
 import { colors, components } from '@/constants/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
+import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const tabBar = components.tabBar;
 
+// Custom wrapper to render the circular active background
+const TabIcon = ({
+  name,
+  focused,
+  color,
+}: {
+  name: keyof typeof Ionicons.glyphMap;
+  focused: boolean;
+  color: string;
+}) => (
+  <View
+    style={{
+      width: 44,
+      height: 44,
+      borderRadius: 22,
+      backgroundColor: focused ? colors.accent : 'transparent',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}
+  >
+    <Ionicons name={name} size={22} color={focused ? '#FFFFFF' : color} />
+  </View>
+);
+
 const TabsLayout = () => {
-    const insets = useSafeAreaInsets();
+  const insets = useSafeAreaInsets();
+
   return (
-      <Tabs screenOptions={{
-          headerShown: false,
-          tabBarShowLabel: false,
-          tabBarStyle: {
-              position: 'absolute',
-              bottom: Math.max( insets.bottom, tabBar.horizontalInset ),
-              height: tabBar.height,
-              marginHorizontal: tabBar.horizontalInset,
-              borderRadius: tabBar.radius,
-              backgroundColor: colors.foreground,
-              borderTopColor: colors.border,
-              borderTopWidth: 0,
-              elevation: 0,
-              alignContent: 'center',
-          },
-          tabBarItemStyle: {
-              paddingVertical: tabBar.height / 2 - tabBar.iconFrame / 1.6,
-          },
-          tabBarIconStyle: {
-              width: tabBar.iconFrame,
-              height: tabBar.iconFrame,
-              alignItems: 'center',
-          },
-          tabBarActiveBackgroundColor: colors.accent,
-          tabBarActiveTintColor: colors.muted,
-          
-      }}>
-          <Tabs.Screen name='index' options={{
-              title: "Home",
-              tabBarIcon: ({color, size}) => <Ionicons color={color} size={size} name='home' />
-        }} />
-          <Tabs.Screen name='insights' options={{
-              title: "Insights",
-              tabBarIcon: ({color, size}) => <Ionicons color={color} size={size} name='infinite-sharp' />
-
-          }} />
-          <Tabs.Screen name='subscribe' options={{
-              title: "Subscribe",
-              tabBarIcon: ({color, size}) => <Ionicons color={color} size={size} name='subway' />
-          }} />
-          <Tabs.Screen name='settings' options={{
-              title: "Settings",
-              tabBarIcon: ({color, size}) => <Ionicons color={color} size={size} name='settings' />
-            }} />
-          <Tabs.Screen name='subscriptions/[id]' options={{
-              href: null
-            }} />
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          position: 'absolute',
+          bottom: Math.max(insets.bottom, tabBar.horizontalInset),
+          height: tabBar.height,
+          marginHorizontal: tabBar.horizontalInset,
+          borderRadius: tabBar.radius,
+          backgroundColor: colors.foreground,
+          borderTopWidth: 0,
+          elevation: 0,
+        },
+        tabBarItemStyle: {
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
+        tabBarInactiveTintColor: colors.muted,
+      }}
+    >
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: 'Home',
+          tabBarIcon: ({ focused, color }) => (
+            <TabIcon name={focused ? 'home' : 'home-outline'} focused={focused} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="insights"
+        options={{
+          title: 'Insights',
+          tabBarIcon: ({ focused, color }) => (
+            <TabIcon name="infinite-sharp" focused={focused} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="subscribe"
+        options={{
+          title: 'Subscribe',
+          tabBarIcon: ({ focused, color }) => (
+            <TabIcon name={focused ? 'subway' : 'subway-outline'} focused={focused} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: 'Settings',
+          tabBarIcon: ({ focused, color }) => (
+            <TabIcon name={focused ? 'settings' : 'settings-outline'} focused={focused} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="subscriptions/[id]"
+        options={{
+          href: null,
+        }}
+      />
     </Tabs>
-  )
-}
+  );
+};
 
-export default TabsLayout
+export default TabsLayout;
