@@ -1,10 +1,12 @@
-import { Text, View } from 'react-native'
+import { StatusBar, Text } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const signInScreen = () => {
   return (
-    <View>
-      <Text>signInScreen</Text>
-    </View>
+    <SafeAreaView>
+      <Text>signIn Screen</Text>
+      <StatusBar />
+    </SafeAreaView>
   )
 }
 
