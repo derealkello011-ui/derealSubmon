@@ -23,8 +23,6 @@ const TabsLayout = () => {
               borderTopWidth: 0,
               elevation: 0,
               alignContent: 'center',
-              alignSelf: 'center',
-              alignItems: 'center'
           },
           tabBarItemStyle: {
               paddingVertical: tabBar.height / 2 - tabBar.iconFrame / 1.6,
