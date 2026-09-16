@@ -5,10 +5,6 @@ declare global {
         focused: boolean;
         icon: ImageSourcePropType;
     }
-    interface TabIconProps {
-        focused: boolean;
-        icon: ImageSourcePropType;
-    }
 
     interface Subscription {
         id: string;
@@ -20,7 +16,7 @@ declare global {
         status?: string;
         startDate?: string;
         price: number;
-        currency?: string;
+        currency: string;
         billing: string;
         frequency?: string;
         renewalDate?: string;
@@ -39,7 +35,7 @@ declare global {
         icon: ImageSourcePropType;
         name: string;
         price: number;
-        currency?: string;
+        currency: string;
         daysLeft: number;
     }
 
