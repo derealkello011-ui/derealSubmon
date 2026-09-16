@@ -27,6 +27,101 @@
     "plugins": [
       "expo-router",
       [
+        "expo-font",
+        {
+          "android": {
+            "fonts": [
+              {
+                "fontFamily": "Plus Jakarta Sans",
+                "fontDefinitions": [
+                  {
+                    "path": "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-ExtraLight.ttf",
+                    "weight": 200
+                  },
+                  {
+                    "path": "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Light.ttf",
+                    "weight": 300
+                  },
+                  {
+                    "path": "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Regular.ttf",
+                    "weight": 400
+                  },
+                  {
+                    "path": "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Medium.ttf",
+                    "weight": 500
+                  },
+                  {
+                    "path": "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-SemiBold.ttf",
+                    "weight": 600
+                  },
+                  {
+                    "path": "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Bold.ttf",
+                    "weight": 700
+                  },
+                  {
+                    "path": "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-ExtraBold.ttf",
+                    "weight": 800
+                  },
+                  {
+                    "path": "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-ExtraLightItalic.ttf",
+                    "weight": 200,
+                    "style": "italic"
+                  },
+                  {
+                    "path": "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-LightItalic.ttf",
+                    "weight": 300,
+                    "style": "italic"
+                  },
+                  {
+                    "path": "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Italic.ttf",
+                    "weight": 400,
+                    "style": "italic"
+                  },
+                  {
+                    "path": "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-MediumItalic.ttf",
+                    "weight": 500,
+                    "style": "italic"
+                  },
+                  {
+                    "path": "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-SemiBoldItalic.ttf",
+                    "weight": 600,
+                    "style": "italic"
+                  },
+                  {
+                    "path": "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-BoldItalic.ttf",
+                    "weight": 700,
+                    "style": "italic"
+                  },
+                  {
+                    "path": "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-ExtraBoldItalic.ttf",
+                    "weight": 800,
+                    "style": "italic"
+                  }
+                ]
+              }
+            ]
+          },
+          "ios": {
+            "fonts": [
+              "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-ExtraLight.ttf",
+              "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Light.ttf",
+              "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Regular.ttf",
+              "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Medium.ttf",
+              "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-SemiBold.ttf",
+              "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Bold.ttf",
+              "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-ExtraBold.ttf",
+              "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-ExtraLightItalic.ttf",
+              "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-LightItalic.ttf",
+              "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-Italic.ttf",
+              "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-MediumItalic.ttf",
+              "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-SemiBoldItalic.ttf",
+              "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-BoldItalic.ttf",
+              "./assets/fonts/Plus_Jakarta_Sans/static/PlusJakartaSans-ExtraBoldItalic.ttf"
+            ]
+          }
+        }
+      ],
+      [
         "expo-splash-screen",
         {
           "backgroundColor": "#208AEF",

@@ -1,3 +1,4 @@
+import adobe from '@/assets/icons/adobe.png';
 import ai from '@/assets/icons/ai.png';
 import analytics from '@/assets/icons/analytics_24.png';
 import canva from '@/assets/icons/canva.png';
@@ -16,13 +17,12 @@ import spotify from '@/assets/icons/spotify.png';
 import subscribe from '@/assets/icons/subscribe.png';
 import wallet from '@/assets/icons/wallet.png';
 
-
 export const icons = {
     claude, ai, medium, notion,
     canva, chatgpt, spotify,
     cursor, dropbox, github, figma,
     home, analytics, insights, settings,
-    wallet, subscribe
+    wallet, subscribe, adobe,
 }
 
 export type IconKey = keyof typeof icons;

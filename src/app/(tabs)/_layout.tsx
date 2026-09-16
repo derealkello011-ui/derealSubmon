@@ -1,12 +1,11 @@
 import { colors, components } from '@/constants/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
-import { View } from 'react-native';
+import { ColorValue, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const tabBar = components.tabBar;
 
-// Custom wrapper to render the circular active background
 const TabIcon = ({
   name,
   focused,
@@ -14,16 +13,17 @@ const TabIcon = ({
 }: {
   name: keyof typeof Ionicons.glyphMap;
   focused: boolean;
-  color: string;
+  color: ColorValue;
 }) => (
   <View
     style={{
-      width: 44,
-      height: 44,
-      borderRadius: 22,
-      backgroundColor: focused ? colors.accent : 'transparent',
-      alignItems: 'center',
-      justifyContent: 'center',
+        width: 55,
+        height: 55,
+        borderRadius: 22,
+        backgroundColor: focused ? colors.accent : 'transparent',
+        alignItems: 'center',
+        justifyContent: 'center',
+        top: 15,
     }}
   >
     <Ionicons name={name} size={22} color={focused ? '#FFFFFF' : color} />
@@ -36,23 +36,25 @@ const TabsLayout = () => {
   return (
     <Tabs
       screenOptions={{
-        headerShown: false,
-        tabBarShowLabel: false,
-        tabBarStyle: {
-          position: 'absolute',
-          bottom: Math.max(insets.bottom, tabBar.horizontalInset),
-          height: tabBar.height,
-          marginHorizontal: tabBar.horizontalInset,
-          borderRadius: tabBar.radius,
-          backgroundColor: colors.foreground,
-          borderTopWidth: 0,
-          elevation: 0,
-        },
-        tabBarItemStyle: {
-          justifyContent: 'center',
-          alignItems: 'center',
-        },
-        tabBarInactiveTintColor: colors.muted,
+            headerShown: false,
+            tabBarShowLabel: false,
+            tabBarStyle: {
+            position: 'absolute',
+            bottom: Math.max(insets.bottom, tabBar.horizontalInset),
+            height: tabBar.height,
+            marginHorizontal: tabBar.horizontalInset,
+            borderRadius: tabBar.radius,
+            backgroundColor: colors.foreground,
+            borderTopWidth: 0,
+            elevation: 0,
+            },
+            tabBarItemStyle: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            },
+            tabBarInactiveTintColor: colors.muted,
+            animation: 'shift',
+        
       }}
     >
       <Tabs.Screen
