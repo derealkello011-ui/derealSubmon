@@ -2,7 +2,7 @@ import { useAuth, useSessionList, useUser } from '@clerk/expo';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import { router } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -50,6 +50,12 @@ export default function SettingsScreen() {
     [user],
   );
 
+  useEffect(() => {
+    if (authLoaded && userLoaded && !isSignedIn) {
+      router.replace('/(auth)/sign-in');
+    }
+  }, [authLoaded, isSignedIn, userLoaded]);
+
   if (!authLoaded || !userLoaded || !sessionsLoaded) {
     return (
       <SafeAreaView className="settings-safe-area">
@@ -61,7 +67,6 @@ export default function SettingsScreen() {
   }
 
   if (!isSignedIn || !user) {
-    router.replace('/(auth)/sign-in');
     return null;
   }
 
