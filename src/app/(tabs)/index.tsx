@@ -1,3 +1,4 @@
+import { useUser } from '@clerk/expo';
 import ListHeading from '@/components/ListHeading';
 import SubscriptionCard from '@/components/SubscriptionCard';
 import UpcomingSubscriptionCard from "@/components/UpcomingSubscriptionCard";
@@ -13,6 +14,15 @@ import { formatCurrency } from "../../../lib/utils";
 
 export default function App() {
   const [ expandedSubId, setExpandedSubId ] = useState<string | null>( null );
+  const { user } = useUser();
+  const userName =
+    user?.fullName?.trim() ||
+    user?.firstName?.trim() ||
+    user?.username?.trim() ||
+    user?.primaryEmailAddress?.emailAddress ||
+    HOME_USER.name;
+  const userImage = user?.imageUrl ? { uri: user.imageUrl } : images.avatar;
+
   return (
     <SafeAreaView className="flex-1 bg-background p-5">
         <FlatList
@@ -20,8 +30,8 @@ export default function App() {
             <>
               <View className="home-header" >
                 <View className="home-user" >
-                  <Image source={images.avatar} className="home-avatar" />
-                  <Text className="home-user-name"> { HOME_USER.name }</Text>
+                  <Image source={userImage} className="home-avatar" />
+                  <Text className="home-user-name">{userName}</Text>
                 </View>
                 <Image source={icons.ai} className="home-add-icon" />
               </View>
