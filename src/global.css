@@ -402,4 +402,208 @@
   .category-chip-text-active {
     @apply text-accent;
   }
+
+  .settings-safe-area {
+    @apply flex-1 bg-background;
+  }
+
+  .settings-content {
+    @apply grow px-5 pb-36 pt-6;
+  }
+
+  .settings-header {
+    @apply mb-6 flex-row items-center justify-between;
+  }
+
+  .settings-kicker {
+    @apply text-xs font-sans-bold tracking-[2px] text-accent;
+  }
+
+  .settings-title {
+    @apply mt-1 text-3xl font-sans-extrabold text-primary;
+  }
+
+  .settings-header-mark {
+    @apply size-12 items-center justify-center rounded-2xl bg-card;
+  }
+
+  .settings-profile-card {
+    @apply mb-7 flex-row items-center rounded-3xl bg-accent p-4;
+  }
+
+  .settings-avatar {
+    @apply size-16 rounded-2xl border-2 border-white/70;
+  }
+
+  .settings-profile-copy {
+    @apply ml-4 min-w-0 flex-1;
+  }
+
+  .settings-profile-name {
+    @apply text-xl font-sans-bold text-primary;
+  }
+
+  .settings-profile-email {
+    @apply mt-1 text-sm font-sans-medium text-primary/65;
+  }
+
+  .settings-edit-button {
+    @apply size-10 items-center justify-center rounded-full bg-background;
+  }
+
+  .settings-section {
+    @apply mb-6;
+  }
+
+  .settings-section-title {
+    @apply mb-2 ml-1 text-sm font-sans-bold uppercase tracking-[1px] text-muted-foreground;
+  }
+
+  .settings-section-card {
+    @apply overflow-hidden rounded-3xl border border-border bg-card;
+  }
+
+  .settings-row {
+    @apply flex-row items-center px-4 py-4;
+  }
+
+  .settings-row-border {
+    @apply border-b border-border;
+  }
+
+  .settings-row-icon {
+    @apply size-10 items-center justify-center rounded-2xl bg-accent/15;
+  }
+
+  .settings-row-copy {
+    @apply ml-3 min-w-0 flex-1;
+  }
+
+  .settings-row-title {
+    @apply text-base font-sans-bold text-primary;
+  }
+
+  .settings-row-subtitle {
+    @apply mt-1 text-xs font-sans-medium text-muted-foreground;
+  }
+
+  .settings-info-row {
+    @apply flex-row items-center justify-between gap-4 px-4 py-4;
+  }
+
+  .settings-info-label {
+    @apply text-sm font-sans-medium text-muted-foreground;
+  }
+
+  .settings-info-value {
+    @apply flex-1 text-right text-sm font-sans-semibold text-primary;
+  }
+
+  .settings-feedback {
+    @apply mb-4 text-sm font-sans-semibold text-accent;
+  }
+
+  .settings-logout-button {
+    @apply mb-3 flex-row items-center justify-center gap-2 rounded-2xl bg-muted py-4;
+  }
+
+  .settings-logout-text {
+    @apply text-base font-sans-bold text-primary;
+  }
+
+  .settings-delete-button {
+    @apply items-center py-3;
+  }
+
+  .settings-delete-text {
+    @apply text-sm font-sans-semibold text-destructive;
+  }
+
+  .settings-footer {
+    @apply mt-3 text-center text-xs font-sans-medium text-muted-foreground;
+  }
+
+  .settings-modal {
+    @apply mt-auto max-h-[90%] rounded-t-3xl bg-background;
+  }
+
+  .settings-modal-header {
+    @apply flex-row items-center justify-between border-b border-border px-5 py-4;
+  }
+
+  .settings-modal-title {
+    @apply text-xl font-sans-bold text-primary;
+  }
+
+  .settings-modal-subtitle {
+    @apply mt-1 text-sm font-sans-medium text-muted-foreground;
+  }
+
+  .settings-modal-body {
+    @apply gap-5 p-5;
+  }
+
+  .settings-modal-avatar-wrap {
+    @apply items-center gap-3;
+  }
+
+  .settings-modal-avatar {
+    @apply size-24 rounded-3xl;
+  }
+
+  .settings-photo-button {
+    @apply flex-row items-center gap-2 rounded-full bg-accent/15 px-4 py-2;
+  }
+
+  .settings-photo-text {
+    @apply text-sm font-sans-semibold text-primary;
+  }
+
+  .settings-input-field {
+    @apply gap-2;
+  }
+
+  .settings-input-label {
+    @apply text-sm font-sans-semibold text-primary;
+  }
+
+  .settings-input {
+    @apply rounded-2xl border border-border bg-card px-4 py-4 text-base font-sans-medium text-primary;
+  }
+
+  .settings-helper {
+    @apply text-sm font-sans-medium text-muted-foreground;
+  }
+
+  .account-switch-row {
+    @apply flex-row items-center rounded-2xl border border-border bg-card p-4;
+  }
+
+  .account-switch-row-active {
+    @apply border-accent bg-accent/10;
+  }
+
+  .account-switch-copy {
+    @apply flex-1;
+  }
+
+  .account-switch-name {
+    @apply text-base font-sans-bold text-primary;
+  }
+
+  .account-switch-meta {
+    @apply mt-1 text-xs font-sans-medium text-muted-foreground;
+  }
+
+  .about-mark {
+    @apply size-20 items-center justify-center self-center rounded-3xl bg-accent;
+  }
+
+  .about-title {
+    @apply text-center text-2xl font-sans-extrabold text-primary;
+  }
+
+  .about-copy {
+    @apply text-center text-base font-sans-medium leading-6 text-muted-foreground;
+  }
 }
