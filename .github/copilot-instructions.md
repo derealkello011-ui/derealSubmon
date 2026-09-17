@@ -1,21 +1,12 @@
 # Copilot instructions for DerealSubmon
 
-## Project overview
+## Start here
 
-DerealSubmon is an Expo SDK 57 / React Native 0.86 mobile app for tracking recurring subscriptions. It is currently a UI prototype: subscription data is static, authentication and onboarding are placeholders, and there is no persistence, backend, or database.
+- Read `AGENTS.md` and `PROJECT_HANDOFF.md` before making substantive changes. They contain the repository’s current product status, Expo guidance, and route/auth gating expectations.
+- Prefer the exact Expo SDK v57 docs for any Expo-specific change: https://docs.expo.dev/versions/v57.0.0/
+- This repo is a prototype app, not a production backend system. Static demo data is intentionally used in many places; do not add real credentials or production persistence unless the task explicitly requires it.
 
-The app uses:
-
-- Expo Router with `src/app` as the route root and typed routes enabled.
-- React 19, TypeScript in strict mode, and the `@/*` alias for `src/*`.
-- NativeWind 4 with Tailwind CSS 3.4; styling is primarily through `className`.
-- Plus Jakarta Sans static font files loaded in the root layout.
-- `dayjs` for dates and `Intl.NumberFormat("en-GH")` for GHS currency formatting.
-- Clerk Expo and SecureStore dependencies reserved for the planned authentication flow.
-
-Read `AGENTS.md` before making changes. For Expo-related work, use the exact Expo SDK v57 documentation at <https://docs.expo.dev/versions/v57.0.0/>. `PROJECT_HANDOFF.md` contains the fuller product and debugging history.
-
-## Build, run, lint, and validation commands
+## Build, test, and lint commands
 
 Install dependencies:
 
@@ -23,7 +14,7 @@ Install dependencies:
 npm install
 ```
 
-Start development:
+Run the app:
 
 ```bash
 npm run start
@@ -32,7 +23,7 @@ npm run ios
 npm run web
 ```
 
-Useful validation commands:
+Validate changes:
 
 ```bash
 npx tsc --noEmit --pretty false
@@ -42,7 +33,7 @@ git diff --check
 npx expo config --type public
 ```
 
-Create production-style bundles:
+Bundle/export checks (use the narrowest relevant one when validating a change):
 
 ```bash
 npx expo export --platform ios --clear
@@ -50,7 +41,7 @@ npx expo export --platform android --clear
 npx expo export --platform web --clear
 ```
 
-If Metro appears stuck while processing styles, isolate the Tailwind compiler:
+If Metro stalls during style processing, isolate the Tailwind compiler:
 
 ```bash
 npx tailwindcss \
@@ -60,47 +51,52 @@ npx tailwindcss \
   --content './src/**/*.{js,jsx,ts,tsx}'
 ```
 
-There is no test script, Jest configuration, or automated test suite currently. Consequently, there is no single-test command; validate focused changes with TypeScript, lint, and the narrowest applicable Expo export.
+There is no test script, Jest configuration, or unit-test runner in the repo right now. There is no single-test command to run. For local validation, use TypeScript + lint + the smallest relevant Expo export or config check instead.
 
-## Architecture and route flow
+## High-level architecture
 
-`src/app/_layout.tsx` is the root stack. It loads the registered static fonts, keeps the splash screen visible until fonts load or fail, then renders the router stack.
+- The app is an Expo Router project rooted at `src/app`.
+- `src/app/_layout.tsx` owns the root stack, loads the custom Plus Jakarta Sans fonts, and keeps the splash screen visible until fonts/auth state are ready.
+- `src/app/index.tsx` is the explicit product entry route and should not rely on route-group ordering. Today it redirects based on auth state; when onboarding/auth is implemented, keep that flow explicit instead of depending on file ordering.
+- Route groups:
+  - `(auth)` contains placeholder sign-in/sign-up screens.
+  - `(tabs)` contains the custom tab bar and the home, insights, subscribe, settings, and hidden detail routes.
+  - `src/app/(tabs)/_layout.tsx` customizes the bottom tab navigator and should remain consistent with the theme constants.
+- Data flow is intentionally simple: static demo records in `src/constants/data.ts` drive most screens, and local UI state (for example, expanded subscription cards) is kept in screen components rather than persisted anywhere.
+- Reusable UI sits in `src/components`; shared formatting utilities live in `lib/utils.ts`; static assets and theme values live in `src/constants`.
+- The app uses NativeWind + Tailwind CSS 3.4, with `tailwind.config.js` extending theme tokens and font aliases. `metro.config.js` must continue wrapping Expo Metro with `withNativeWind(config, { input: './src/global.css' })`.
 
-`src/app/index.tsx` is the explicit product entry route and currently redirects to `/(tabs)`. Do not rely on the ordering of sibling route groups. When authentication is implemented, replace this unconditional redirect with an explicit state gate:
+## Key conventions specific to this repo
 
-1. Incomplete onboarding -> `/onboarding`
-2. Complete onboarding and unauthenticated -> `/(auth)/sign-in`
-3. Authenticated -> `/(tabs)`
+- Use `@/*` for imports from `src`, and keep route layout/screen logic close to the route files that own it.
+- Prefer file-based routing and do not assume sibling route groups are ordered to determine the app entry.
+- Keep reusable visual patterns in `src/global.css` via `@layer components`, then apply them from React Native components.
+- Tailwind must stay on the v3 syntax:
+  - keep `@tailwind base;`, `@tailwind components;`, and `@tailwind utilities;`
+  - do not introduce Tailwind 4 `@import` or `@theme` syntax
+  - add custom spacing/radius/colors/font aliases in `tailwind.config.js` before using them in `@apply`
+- Font aliases are defined in both the runtime `useFonts` map and `tailwind.config.js`; update both sides together when adding or renaming a font alias.
+- Use the shared formatting helpers instead of duplicating date/currency/label logic: `formatCurrency`, `formatSubscriptionDateTime`, `formatStatusLabel`.
+- Keep theme constants and Tailwind values synchronized when changing the design system; inline native styles for tab bars and other components should use `src/constants/theme.ts`.
+- Treat payment method strings and other “demo” data as fake values. Do not add real credentials, full card numbers, or production data fixtures.
+- Keep the splash/font failure behavior intact: the app should not remain stuck on the splash screen if fonts fail to load.
+- Do not edit generated output under `dist/` by hand; it is excluded from linting and will be regenerated.
+- `app.json` owns Expo app metadata, plugins, fonts, and static web output settings; leave these changes intentional and minimal.
+- `babel.config.js` must retain both `babel-preset-expo` and the NativeWind JSX transform. Do not remove the NativeWind setup unless the task is explicitly about testing Metro isolation.
+- Before making changes, check `git status` and preserve unrelated edits. Avoid destructive Git actions and do not force-push without permission.
 
-The `(auth)` group currently contains placeholder sign-in and sign-up screens. The `(tabs)` group contains the custom bottom tab layout plus home, insights, subscribe, settings, and the hidden detail route `subscriptions/[id]`.
+## Important files and boundaries
 
-The home screen (`src/app/(tabs)/index.tsx`) composes the dashboard from static constants in `src/constants/data.ts`. It formats the balance, renders horizontal upcoming-renewal cards, and renders an expandable `FlatList` of subscription cards. Expansion is local React state keyed by subscription ID; no data is persisted.
+- `src/constants/data.ts`: demo user, balance, and subscription fixtures.
+- `src/constants/theme.ts`: theme constants for colors and component sizing.
+- `src/components/*`: reusable cards and list headings.
+- `lib/utils.ts`: central formatting utilities.
+- `src/global.css`: Tailwind layers and shared component classes.
+- `type.d.ts`: global typed demo data and interface contracts.
+- `app.json`, `babel.config.js`, `metro.config.js`, `tailwind.config.js`: app/runtime config that should only change with clear product or framework intent.
 
-Reusable UI lives in `src/components`. Shared display formatting belongs in `lib/utils.ts`. Static asset registries and demo data belong in `src/constants` (`icons.ts`, `images.ts`, `data.ts`, and `theme.ts`).
+## Documentation and repo references
 
-## Repository-specific conventions
-
-- Use Expo Router file-based routes under `src/app`; keep route layouts and screen options close to their route group.
-- Prefer the existing `@/*` alias for imports from `src`; use relative imports only where the surrounding file already follows that pattern.
-- Keep reusable visual patterns in `src/global.css` as `@layer components` classes, then use those classes from React Native components.
-- This repository uses Tailwind CSS 3 syntax:
-  - Keep `@tailwind base`, `@tailwind components`, and `@tailwind utilities`.
-  - Do not introduce Tailwind 4 `@import` or `@theme` syntax.
-  - Add custom spacing, radii, colors, or font aliases to `tailwind.config.js` before using them in `@apply`.
-  - `metro.config.js` must continue wrapping Expo Metro with `withNativeWind(config, { input: "./src/global.css" })`.
-- Font aliases such as `font-sans-bold` are defined both in the root `useFonts` map and in `tailwind.config.js`; update both sides when adding an alias.
-- Use the shared theme constants in `src/constants/theme.ts` for inline native styles such as the custom tab bar. Keep Tailwind color values and theme constants synchronized when changing the design system.
-- Use `formatCurrency`, `formatSubscriptionDateTime`, and `formatStatusLabel` instead of duplicating formatting logic. Currency formatting is intentionally `en-GH` with two decimal places; invalid values have a safe fallback.
-- The app uses static demo records with ISO date strings and typed global data shapes from `type.d.ts`. Treat payment-method strings as fake demo data and never add real credentials.
-- Keep the existing splash/font failure behavior: the splash screen must not remain indefinitely if font loading fails.
-- Avoid broad error swallowing or silent success fallbacks. Preserve the repository’s explicit safe formatting fallbacks and surface new failures consistently.
-- The current demo dates may be stale relative to the current date. Date-sensitive features should use deliberate relative fixtures or real data rather than assuming the demo dates are current.
-
-## Configuration and change boundaries
-
-- `app.json` owns Expo plugins, app scheme, fonts, splash screen, typed routes, React Compiler, and static Metro web output.
-- `babel.config.js` must retain both `babel-preset-expo` with `jsxImportSource: "nativewind"` and `nativewind/babel`.
-- `eslint.config.js` extends the Expo flat config and ignores `dist/*`.
-- `dist/` is generated output and is excluded from linting; do not hand-edit it.
-- The old `reset-project` script was removed because its implementation no longer exists. Do not restore it unless the script is implemented and documented.
-- Check `git status` before editing and preserve unrelated user changes. Do not use destructive Git commands or force-push without explicit approval.
+- `README.md` is the basic Expo starter documentation and should not be treated as the product source of truth.
+- `AGENTS.md` and `PROJECT_HANDOFF.md` contain the current project-specific decisions and debugging history that are more relevant than the template README.
+- If the task is auth, onboarding, navigation, or styling, always check the route and config context first because this repo intentionally keeps these concerns centralized and explicit.
