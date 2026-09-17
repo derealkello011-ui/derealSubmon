@@ -139,7 +139,7 @@ export default function SignInScreen() {
           </View>
 
           <View className="auth-card">
-            {mfaRequired ? (
+            {verificationRequired ? (
               <View className="auth-form">
                 <AuthField
                   label="Verification code"
