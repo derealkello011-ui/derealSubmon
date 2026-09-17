@@ -23,7 +23,7 @@ export default function SignInScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
-  const [mfaRequired, setMfaRequired] = useState(false);
+  const [verificationRequired, setVerificationRequired] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -61,17 +61,35 @@ export default function SignInScreen() {
       return;
     }
 
-    if (signIn.status === 'needs_second_factor') {
+    if (
+      signIn.status === 'needs_second_factor' ||
+      signIn.status === 'needs_client_trust'
+    ) {
+      const emailCodeFactor = signIn.supportedSecondFactors?.find(
+        (factor) => factor.strategy === 'email_code',
+      );
+
+      if (!emailCodeFactor) {
+        setFormError(
+          signIn.status === 'needs_second_factor'
+            ? 'This account requires a second factor that is not configured for email verification. Use the configured authenticator or backup code, or enable email verification in Clerk.'
+            : 'This device needs verification, but Clerk has no email verification method available for this account.',
+        );
+        return;
+      }
+
       const { error: mfaError } = await signIn.mfa.sendEmailCode();
       if (mfaError) {
         setFormError(mfaError.longMessage ?? 'Your account requires additional verification that is not available right now.');
         return;
       }
-      setMfaRequired(true);
+      setVerificationRequired(true);
       return;
     }
 
-    setFormError('Additional account verification is required to continue.');
+    setFormError(
+      `Sign-in could not continue because Clerk returned "${signIn.status ?? 'an incomplete status'}". Check the account requirements in the Clerk Dashboard.`,
+    );
   };
 
   const handleVerifyMfa = async () => {
@@ -112,9 +130,9 @@ export default function SignInScreen() {
         >
           <AuthBrand />
           <View className="auth-copy">
-            <Text className="auth-title">{mfaRequired ? 'One more step' : 'Welcome back'}</Text>
+            <Text className="auth-title">{verificationRequired ? 'One more step' : 'Welcome back'}</Text>
             <Text className="auth-subtitle auth-subtitle-left">
-              {mfaRequired
+              {verificationRequired
                 ? 'We sent a verification code to your email to keep your account secure.'
                 : 'Sign in to keep your subscriptions organized and your next renewal in view.'}
             </Text>
