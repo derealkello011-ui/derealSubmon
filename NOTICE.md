@@ -10,6 +10,20 @@ This file records lessons learned while building and debugging DerealSubmon. It 
 - Use `npx expo config --type public` to verify that `app.json` resolves correctly.
 - A successful JavaScript check does not prove that a native config plugin was applied; native plugin changes require a new native build.
 
+## Clerk authentication and device verification
+
+- Clerk email/password sign-in can return `needs_client_trust` when a user signs in from a new or untrusted device. This is separate from `needs_second_factor` MFA.
+- A custom sign-in screen must handle both `needs_client_trust` and `needs_second_factor`; otherwise a valid password can fall through to a misleading generic “Additional account verification is required” error.
+- For the email-code device-trust flow, verify in the Clerk Dashboard that:
+  - Email address is enabled for sign-in.
+  - Email verification codes are enabled.
+  - The Password settings have Device Trust enabled if the app is expected to verify new phones by email.
+  - The affected account has a verified email address.
+- The supported flow is: call `signIn.password()`, inspect `signIn.status`, call `signIn.mfa.sendEmailCode()` for an available `email_code` second factor, collect the code, call `signIn.mfa.verifyEmailCode()`, then call `signIn.finalize()`.
+- Do not assume every account has email as its second factor. Check `signIn.supportedSecondFactors` first and provide an actionable message for TOTP, phone, backup-code, or unconfigured-factor cases.
+- When an account was created or configured in a different Clerk instance/environment, verify that the app’s `EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY` points to the same Clerk instance shown in the dashboard. After changing `.env`, restart Expo/Metro so the public environment variable is reloaded.
+- If Clerk dashboard authentication settings or native Clerk configuration change, rebuild the development client when required; refreshing JavaScript alone does not apply native configuration changes.
+
 ## Expo Router discipline
 
 - File-based routing does not replace product-level navigation state.
