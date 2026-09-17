@@ -199,6 +199,14 @@
     @apply grow px-5 pb-10 pt-8;
   }
 
+  .auth-copy {
+    @apply mt-2;
+  }
+
+  .auth-subtitle-left {
+    @apply max-w-none text-left;
+  }
+
   .auth-brand-block {
     @apply mt-2 items-center;
   }
@@ -251,6 +259,18 @@
     @apply rounded-2xl border border-border bg-background px-4 py-4 text-base font-sans-medium text-primary;
   }
 
+  .auth-input-wrap {
+    @apply flex-row items-center rounded-2xl border border-border bg-background;
+  }
+
+  .auth-input-flex {
+    @apply flex-1 border-0 bg-transparent;
+  }
+
+  .auth-input-action {
+    @apply mr-4 text-xs font-sans-bold text-accent;
+  }
+
   .auth-input-error {
     @apply border-destructive;
   }
@@ -261,6 +281,14 @@
 
   .auth-helper {
     @apply text-sm font-sans-medium text-muted-foreground;
+  }
+
+  .auth-name-row {
+    @apply flex-row gap-3;
+  }
+
+  .auth-name-row .auth-field {
+    @apply min-w-0 flex-1;
   }
 
   .auth-button {
